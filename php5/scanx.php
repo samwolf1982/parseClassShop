@@ -96,16 +96,16 @@ require_once 'PhpDebuger/debug.php';
             $val1= pq($value)->find('td:first')->text() ; ;$val2= pq($value)->find('td:last')->text() ;
             if ($state==1) {
               # code...
-               $tabA[$val1]=$val2;
+               $tabA[trim($val1)]=trim( $val2);
             }else
                 if ($state==2) {
               # code...
-               $tabB[$val1]=$val2;
+               $tabB[trim($val1)]=trim($val2);
             }
         }
 
-          $resultARR['tabA']=$tabA;
-          $resultARR['tabB']=$tabB;
+          $resultARR['tabA']=json_encode( $tabA,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+          $resultARR['tabB']=json_encode( $tabB,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
       
 
         // title
@@ -151,17 +151,55 @@ require_once 'PhpDebuger/debug.php';
       //    
       // $resultARR['meta']=$meta;
        
- // READY
-       //print_r($resultARR);
+ // READY  PRODUCT 
+      // print_r($resultARR);
+
+  
+
+           $db = new PDO("mysql:host=".CURENT_HOST.";dbname=".CURENT_DB, CURENT_USER, CURENT_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+ 
+/* $stmt = $db->prepare("INSERT INTO users (name, login) VALUES (:name, :login)");
+$stmt->bindParam(':name', $name);
+$stmt->bindParam(':login', $login);
+
+// Вставим одну строку с такими значениями
+$name = 'vasya';
+$login = 'vasya123';
+$stmt->execute();*/
+   print_r($resultARR);
+    $catid=25;
+    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`) VALUES (:val1,:val2,:val3,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11)");
+        $stmt->bindParam(':val1', $catid);
+        $stmt->bindParam(':val2',   $resultARR['price']);
+        $stmt->bindParam(':val3',   $resultARR['name']);
+        $stmt->bindParam(':val4',   $resultARR['descriptions']);
+        $stmt->bindParam(':val5',  $resultARR['tabA']);
+        $stmt->bindParam(':val6',   $resultARR['tabB']);
+        $stmt->bindParam(':val7',   $resultARR['title']);
+        $stmt->bindParam(':val8',   $resultARR['metaDesc']);
+        $stmt->bindParam(':val9',   $resultARR['metaAbst']);
+        $stmt->bindParam(':val10',  $resultARR['metaKey']);
+        $stmt->bindParam(':val11',  $resultARR['metaImg']);
+        $result = $stmt->execute();
+        
+         
+
+    /*    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`) VALUES (78,25,:val,:val4,:val,:val,:val,:val,:val,:val,:val)");
+        //$stmt->bindParam(':val1',   245);
+        $stmt->bindParam(':val',   $resultARR['title']);
+        $stmt->bindParam(':val4',   $resultARR['title']);
+        $result = $stmt->execute();*/
+        
 
 
+      echo "Result ". $result;
        die();
  
 $resultLi=$document->find($s);
 echo $document;
 echo $resultLi;
 die();
-     $db = new PDO("mysql:host=".CURENT_HOST.";dbname=".CURENT_DB, CURENT_USER, CURENT_PASS);
+  
      foreach ($resultLi as $key => $value) {
        # code...
 
