@@ -18,26 +18,22 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script>
 $(document).ready(function(){
-    $("button").click(function(){
+        var mainArr =[];
 
-$.ajax({
-        type: "GET",
-    url: "php5/sitemapL.xml",
-    dataType: "xml",
-    success: function(xml) {
+    $("#start").click(function(){
 
-             $(xml).find('loc').each(function(i,e){
-                 console.log( $(e).text());
-              });
-       console.log('load ))');
+var intervalID = window.setInterval(myCallback, 5000);
+
+function myCallback() {
+
+    if(mainArr.length==0){
+        window.clearInterval(intervalID);
+        return;
     }
-});
-
-
-       // $("#div1").load("demo_test.txt");
+  // Your code here
 // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-var jqxhr = $.post( "php5/scanx.php", function() {
+var jqxhr = $.post( "php5/scanx.php", { param: mainArr.shift(), time: "2pm" } , function() {
   //alert( "success" );
 })
   .done(function(data) {
@@ -51,9 +47,73 @@ var jqxhr = $.post( "php5/scanx.php", function() {
   .always(function() {
    // alert( "finished" );
 });
+}
+
+
+
+      //  for (var i = mainArr.length - 1; i >= 0; i--) {
+           // mainArr[i]
+       
+
+
+       // }
+
+
      
        console.log("ol");
     });
+
+
+//-----------------
+$("#load").click(function(){
+
+
+
+ 
+$.ajax({
+        type: "GET",
+    url: "php5/sitemapL.xml",
+    dataType: "xml",
+    success: function(xml) {
+
+             $(xml).find('loc').each(function(i,e){
+                mainArr.push($(e).text());
+
+              });
+       console.log('load ))');
+    }
+});
+
+
+       // $("#div1").load("demo_test.txt");
+// Assign handlers immediately after making the request,
+// and remember the jqxhr object for this request
+/*var jqxhr = $.post( "php5/scanx.php", function() {
+  //alert( "success" );
+})
+  .done(function(data) {
+   // alert( "second success" );
+   console.log(data);
+
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+   // alert( "finished" );
+});*/
+     
+      // console.log("ol");
+    });
+
+
+
+
+
+
+
+
+
 });
 </script>
     </head>
@@ -83,7 +143,8 @@ var jqxhr = $.post( "php5/scanx.php", function() {
             
 
 
-<button>Start or Load</button>
+<button id="start">Start</button>
+<button id="load">Load</button>
                     </header>
                     <section>
                         <h2>article section h2</h2>

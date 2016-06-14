@@ -8,14 +8,21 @@ require_once ('../phpQuery/phpQuery/phpQuery.php');
 require_once 'setings.php';
 require_once 'PhpDebuger/debug.php';
 
-echo "string";
+if (isset($_POST['param'])) {
+  # code...
+ 
+scanx($_POST['param']);
+
+
+}else
+echo "empty";
 
 die();
  function scanx($path_site)
 {
  
   //$path_site='http://alitrust.ru/boasts/odezhda-i-obuv';
-  $path_site=$GLOBALS['curent_host_full'].$path_site;
+ // $path_site=$GLOBALS['curent_host_full'].$path_site;
   # code...
   phpQuery::ajaxAllowHost($GLOBALS['curent_host']); 
 
@@ -202,7 +209,7 @@ $login = 'vasya123';
 $stmt->execute();*/
  //  print_r($resultARR);
     $catid=25;
-    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `bred1`, `bred2`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`) VALUES (:val1,:val2,:val3,:val3b,:val3c,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11)");
+    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `bred1`, `bred2`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`, `url`) VALUES (:val1,:val2,:val3,:val3b,:val3c,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11,:val12)");
         $stmt->bindParam(':val1', $catid);
         $stmt->bindParam(':val2',   $resultARR['price']);
         $stmt->bindParam(':val3',   $resultARR['name']); 
@@ -216,6 +223,7 @@ $stmt->execute();*/
         $stmt->bindParam(':val9',   $resultARR['metaAbst']);
         $stmt->bindParam(':val10',  $resultARR['metaKey']);
         $stmt->bindParam(':val11',  $resultARR['metaImg']);
+        $stmt->bindParam(':val12',  $_POST['param']);
         $result = $stmt->execute();
         
          
@@ -226,9 +234,9 @@ $stmt->execute();*/
         $stmt->bindParam(':val4',   $resultARR['title']);
         $result = $stmt->execute();*/
         
+ echo $_POST['param']. " __OK";
 
-
-      echo "Result ". $result;
+    //  echo "Result ". $result;
        die();
  
 $resultLi=$document->find($s);
