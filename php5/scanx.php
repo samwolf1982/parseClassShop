@@ -15,7 +15,7 @@ require_once 'PhpDebuger/debug.php';
 {
  
   //$path_site='http://alitrust.ru/boasts/odezhda-i-obuv';
-  $path_site='http://light-glass.com.ua';
+  $path_site=$GLOBALS['curent_host_full'].$path_site;
   # code...
   phpQuery::ajaxAllowHost($GLOBALS['curent_host']); 
 
@@ -35,14 +35,12 @@ require_once 'PhpDebuger/debug.php';
          // поиск а указателя на ссилку на последниюю ссілку
 
       $document=phpQuery::newDocument($do);
-         echo "Ok ";
-       echo $document;
-          die();
+   
      // парс ст. +отправка и сверка
       parse($document,$path_site);
 
         
-  
+  die();
       // потом встаить в цикл + проверка
 
   echo nl2br("\nok");
@@ -61,15 +59,122 @@ require_once 'PhpDebuger/debug.php';
  function parse($value2,$path_site)
  {
    # code...
+  $resultARR=[];
   $document=$value2;
                   // парс без параметров 
-                        // если есть совпадения сразу брейк.
+            // если есть совпадения сразу брейк.
 #posts > div:nth-child(4)     // количество елементов на странице
-// удалить все пости спасибо  post_thanks_box_
-       $s='div[id^="post_thanks_box"]';
-$document->find($s)->remove();
+// под категории машин
+       $s='.b-layout__product-groups li';
+       $price='.b-product__price > span:nth-child(1)';
+       // price
+       $price=$document->find($price)->attr('content');
+       $resultARR['price']=$price;
+
+        // name
+       $name='.b-product__name';
+       $name=$document->find($name)->text();
+       $resultARR['name']=$name;
+
+        // descript
+       $descriptions='div.b-user-content:nth-child(2)';
+       $descriptions=$document->find($descriptions)->text();
+       //echo $descriptions;
+       $resultARR['descriptions']=$descriptions;
+
+          // tables a b
+       $tabletr='.b-product-info tr';
+       $tabletr=$document->find($tabletr);
+       $state=0;
+       $tabA=[];
+       $tabB=[];
+        foreach ($tabletr as $key => $value) {
+          # code...
+            $td=pq($value)->find('td');
+             
+          if (count($td)==0) {$state++; continue;}
+            $val1= pq($value)->find('td:first')->text() ; ;$val2= pq($value)->find('td:last')->text() ;
+            if ($state==1) {
+              # code...
+               $tabA[$val1]=$val2;
+            }else
+                if ($state==2) {
+              # code...
+               $tabB[$val1]=$val2;
+            }
+        }
+
+          $resultARR['tabA']=$tabA;
+          $resultARR['tabB']=$tabB;
+      
+
+        // title
+       $title='title';
+       $title=$document->find($title)->text();
+       //echo $title;
+       $resultARR['title']=$title;
 
 
+
+         // meta
+       $meta='meta';
+       $meta=$document->find($meta);
+      // echo "Count ".count($meta);
+       $ind=0;
+       foreach ($meta as $key => $value) {
+         # code...
+       $m=pq($value)->attr('content');
+       switch ($ind) {
+           case 2:
+           # code...
+  $resultARR['metaDesc']=$m;
+           break;
+           case 3:
+           # code...
+            $resultARR['metaAbst']=$m;
+           break;
+           case 4:
+           $resultARR['metaKey']=$m;
+           # code...
+           break;
+           case 7:
+           # code...
+           $resultARR['metaImg']=$m;
+           break;
+         
+         default:
+           # code...
+           break;
+       }
+       $ind++;
+       }
+      //    
+      // $resultARR['meta']=$meta;
+       
+ // READY
+       //print_r($resultARR);
+
+
+       die();
+ 
+$resultLi=$document->find($s);
+echo $document;
+echo $resultLi;
+die();
+     $db = new PDO("mysql:host=".CURENT_HOST.";dbname=".CURENT_DB, CURENT_USER, CURENT_PASS);
+     foreach ($resultLi as $key => $value) {
+       # code...
+
+      $a=pq($value)->find('a');
+    
+     $r= $a->attr('href');
+      echo $r;
+    
+      $r= pq($value)->text();
+      echo $r;
+     echo "string";
+     }
+       die();
   
           // поиск поста с id edit
       /*  $s='div[id^="edit"]';
@@ -335,7 +440,7 @@ if(isset($_GET['path'])){
     
    
 
-scanx('val');
+  scanx($_GET['path']);
 
 
     die();

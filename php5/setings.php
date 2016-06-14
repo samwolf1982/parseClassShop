@@ -13,5 +13,12 @@ $GLOBALS['forum']='http://anti-free.ru/forum';
 
 $GLOBALS['curent_host'] = 'light-glass.com.ua';
 $GLOBALS['curent_host_full'] = 'http://light-glass.com.ua/';
+define('CURENT_HOST', 'localhost');
+define('CURENT_DB', 'parserglass');
+define('CURENT_USER', 'root');
+define('CURENT_PASS', '');
+
+
+
 
 ?>
