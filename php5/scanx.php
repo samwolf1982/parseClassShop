@@ -8,9 +8,9 @@ require_once ('../phpQuery/phpQuery/phpQuery.php');
 require_once 'setings.php';
 require_once 'PhpDebuger/debug.php';
 
+echo "string";
 
-
-
+die();
  function scanx($path_site)
 {
  
@@ -65,7 +65,41 @@ require_once 'PhpDebuger/debug.php';
             // если есть совпадения сразу брейк.
 #posts > div:nth-child(4)     // количество елементов на странице
 // под категории машин
-       $s='.b-layout__product-groups li';
+       // хлебные крошки
+$b1=array();
+       $bread1='.b-breadcrumb__item:nth-child(3)';
+         $bread1a=$document->find($bread1);
+  
+          $bread1=pq($bread1a)->text();
+
+            $breadh=pq($bread1a)->find('a')->attr('href');
+          
+
+           //echo "$breadh";
+//die();
+           $b1[trim($bread1)]=trim($breadh);
+        $resultARR['bread1']=json_encode( $b1,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+       //$resultARR['price']=$price;
+$b1=array();
+         // повтор кода 
+      $bread1='.b-breadcrumb__item:nth-child(4)';
+         $bread1a=$document->find($bread1);
+  
+          $bread1=pq($bread1a)->text();
+
+            $breadh=pq($bread1a)->find('a')->attr('href');
+          
+
+           //echo "$breadh";
+//die();
+           $b1[trim($bread1)]=trim($breadh);
+        $resultARR['bread2']=json_encode( $b1,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+       //$resultARR['price']=$price;
+
+       // $resultARR['bread2']=$bread2;
+  //      print_r($resultARR);
+     
+//die();
        $price='.b-product__price > span:nth-child(1)';
        // price
        $price=$document->find($price)->attr('content');
@@ -166,12 +200,14 @@ $stmt->bindParam(':login', $login);
 $name = 'vasya';
 $login = 'vasya123';
 $stmt->execute();*/
-   print_r($resultARR);
+ //  print_r($resultARR);
     $catid=25;
-    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`) VALUES (:val1,:val2,:val3,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11)");
+    $stmt = $db->prepare("INSERT INTO `product`(`catid`, `price`, `name`, `bred1`, `bred2`, `descriptions`, `taba`, `tabb`, `title`, `metades`, `metakey`, `metaabstr`, `metaimg`) VALUES (:val1,:val2,:val3,:val3b,:val3c,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11)");
         $stmt->bindParam(':val1', $catid);
         $stmt->bindParam(':val2',   $resultARR['price']);
-        $stmt->bindParam(':val3',   $resultARR['name']);
+        $stmt->bindParam(':val3',   $resultARR['name']); 
+        $stmt->bindParam(':val3b',   $resultARR['bread1']); 
+        $stmt->bindParam(':val3c',   $resultARR['bread2']); 
         $stmt->bindParam(':val4',   $resultARR['descriptions']);
         $stmt->bindParam(':val5',  $resultARR['tabA']);
         $stmt->bindParam(':val6',   $resultARR['tabB']);
