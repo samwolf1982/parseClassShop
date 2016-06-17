@@ -47,7 +47,16 @@ class Zend_Http_Client_Adapter_Proxy extends Zend_Http_Client_Adapter_Socket
      *
      * @var array
      */
-    protected $config = array(
+/*    protected $config = array(
+        'ssltransport'  => 'ssl',
+        'proxy_host'    => '109.207.61.134',
+        'proxy_port'    => 8090,
+        'proxy_user'    => '',
+        'proxy_pass'    => '',
+        'proxy_auth'    => Zend_Http_Client::AUTH_BASIC,
+        'persistent'    => false
+    );*/
+      protected $config = array(
         'ssltransport'  => 'ssl',
         'proxy_host'    => '',
         'proxy_port'    => 8080,
@@ -56,6 +65,7 @@ class Zend_Http_Client_Adapter_Proxy extends Zend_Http_Client_Adapter_Socket
         'proxy_auth'    => Zend_Http_Client::AUTH_BASIC,
         'persistent'    => false
     );
+
 
     /**
      * Whether HTTPS CONNECT was already negotiated with the proxy or not

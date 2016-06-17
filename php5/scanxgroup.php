@@ -8,9 +8,20 @@ require_once ('../phpQuery/phpQuery/phpQuery.php');
 require_once 'setings.php';
 require_once 'PhpDebuger/debug.php';
 
+//******for browser
+
+//scanx(array('Audi 80 / 90 (Седан, Комби) (1986-1995)›]','/g4518155-audi-sedan-kombi'));
+
+//die();
+//***********   remove
+
+
+
 if (isset($_POST['param'])) {
   # code...
- 
+/* echo "ok";
+die();
+*/
 scanx($_POST['param']);
 
 
@@ -21,12 +32,21 @@ die();
  function scanx($path_site)
 {
  
+//echo print_r($path_site);
+ //die();
+ // $j=json_decode($path_site,true);
+list($key, $val) = each($path_site);
+  
+  $val='http://light-glass.com.ua'.$val;
+//echo $key.PHP_EOL.$val;
+
+
 
 //$_POST['param']='http://light-glass.com.ua/p48667710-lobovoe-steklo-pontiac.html';
   // ПРОВЕРКА НА СОВПАДЕНИЕ В БД
      $db = new PDO("mysql:host=".CURENT_HOST.";dbname=".CURENT_DB, CURENT_USER, CURENT_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
  
-       $sql="SELECT * FROM `product` WHERE `url`='".$_POST['param']."'";
+       $sql="SELECT * FROM `groupb` WHERE `url`='".$val."'";
 
       // echo $sql;
 
@@ -38,7 +58,8 @@ echo " is present";
    $db=null;
 die();
 }
-
+//echo "to db ok ";
+//die();
 //echo $result['catid'];
 //echo "ok";
      $db=null;
@@ -49,12 +70,12 @@ die();
   phpQuery::ajaxAllowHost($GLOBALS['curent_host']); 
 
   
-  $file_c = file_get_contents($GLOBALS['path_hash']);
+ /* $file_c = file_get_contents($GLOBALS['path_hash']);
   $all_hasess = explode(",",trim($file_c));
-  $GLOBALS['counter']=count($all_hasess);
+  $GLOBALS['counter']=count($all_hasess);*/
 
-   
-  phpQuery::get($path_site,function ($do) use ($path_site)
+   //echo $val; die();
+  phpQuery::get($val,function ($do) use ($path_site)
     {
       # code...
       /*   $arrayName = array('main' =>'div.b-boast-list__item:nth-child() ', 'links_add_a'=>'div.b-boast-list__item:nth-child(' ); //x
@@ -62,9 +83,9 @@ die();
          // заход на любую страницу пускай 31
          // http://anti-free.ru/forum/showthread.php?t=58815&page=31 
          // поиск а указателя на ссилку на последниюю ссілку
-
+       
       $document=phpQuery::newDocument($do);
-   
+       // echo $document;
      // парс ст. +отправка и сверка
       parse($document,$path_site);
 
@@ -100,6 +121,8 @@ $b1=array();
          $bread1a=$document->find($bread1);
   
           $bread1=pq($bread1a)->text();
+
+     //echo $bread1; die();
 
             $breadh=pq($bread1a)->find('a')->attr('href');
           
@@ -140,10 +163,13 @@ $b1=array();
        $resultARR['name']=$name;
 
         // descript
-       $descriptions='div.b-user-content:nth-child(2)';
+       $descriptions='.b-layout__content > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)';
+      // $descriptions='.b-user-content';
        $descriptions=$document->find($descriptions)->text();
        //echo $descriptions;
        $resultARR['descriptions']=$descriptions;
+
+       echo $descriptions; die();
 
           // tables a b
        $tabletr='.b-product-info tr';

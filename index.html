@@ -19,6 +19,7 @@
         <script>
 $(document).ready(function(){
         var mainArr =[];
+        var mainarrGroupJSON;
 
     $("#start").click(function(){
 
@@ -38,7 +39,7 @@ var jqxhr = $.post( "php5/scanx.php", { param: mainArr.shift(), time: "2pm" } , 
 })
   .done(function(data) {
    // alert( "second success" );
-   console.log(data);
+   console.log(data+"  "+mainArr.length);
 
   })
   .fail(function() {
@@ -48,16 +49,6 @@ var jqxhr = $.post( "php5/scanx.php", { param: mainArr.shift(), time: "2pm" } , 
    // alert( "finished" );
 });
 }
-
-
-
-      //  for (var i = mainArr.length - 1; i >= 0; i--) {
-           // mainArr[i]
-       
-
-
-       // }
-
 
      
        console.log("ol");
@@ -72,7 +63,8 @@ $("#load").click(function(){
  
 $.ajax({
         type: "GET",
-    url: "php5/sitemapL.xml",
+    /*url: "php5/sitemapL.xml",*/
+    url: "php5/updated6.xml",
     dataType: "xml",
     success: function(xml) {
 
@@ -80,20 +72,50 @@ $.ajax({
                 mainArr.push($(e).text());
 
               });
-       console.log('load ))');
+       console.log('load )) '+ mainArr.length);
     }
 });
 
+    });
 
-       // $("#div1").load("demo_test.txt");
+////       GROUP  B
+
+       var mainArr =[];
+
+    $("#startG").click(function(){
+
+var intervalID2 = window.setInterval(myCallback2, 5000);
+
+function myCallback2() {
+
+    if(mainarrGroupJSON.length==0){
+        window.clearInterval(intervalID2);
+        return;
+    }
+  // Your code here
 // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-/*var jqxhr = $.post( "php5/scanx.php", function() {
+           //   parse json
+/*   for (var i = j.length - 1; i >= 0; i--) {
+            console.log( j[i]);
+           arr=[];
+            for(var x in j[i]){
+              arr.push(x);       //  key
+              arr.push('http://light-glass.com.ua'+j[i][x]);  //  path
+              
+                        }
+                      console.log(arr[0]); 
+                      console.log(arr[1]);  
+
+    
+        }*/
+
+var jqxhr = $.post( "php5/scanxgroup.php", { param: mainarrGroupJSON.shift(), time: "2pm" } , function() {
   //alert( "success" );
 })
   .done(function(data) {
    // alert( "second success" );
-   console.log(data);
+   console.log(data+"  "+mainarrGroupJSON.length);
 
   })
   .fail(function() {
@@ -101,17 +123,38 @@ $.ajax({
   })
   .always(function() {
    // alert( "finished" );
-});*/
+});
+}
+
      
-      // console.log("ol");
+       console.log("ol");
     });
 
 
+//-----------------
+$("#loadG").click(function(){
 
 
 
+console.log("loadgroupb.php");
+ 
+$.ajax({
+        type: "GET",
+
+    url: "php5/loadgroupb.php",
+    success: function(data) {
+   mainarrGroupJSON=JSON.parse(data);
 
 
+      console.log(mainarrGroupJSON);
+       console.log('load )) ');
+    }
+});
+
+   
+
+
+ });
 
 
 });
@@ -145,10 +188,13 @@ $.ajax({
 
 <button id="start">Start</button>
 <button id="load">Load</button>
+
                     </header>
                     <section>
-                        <h2>article section h2</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
+                        <h2>Goup B 10002</h2>
+
+<button id="startG">Start</button>
+<button id="loadG">Load</button>
                     </section>
                     <section>
                      <!--    <h2>article section h2</h2>
