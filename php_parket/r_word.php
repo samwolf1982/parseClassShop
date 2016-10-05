@@ -15,7 +15,7 @@ $fname2="all_prod2.csv";
 
 if (($handle = fopen($fname, "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      $arr[]= array( $data[0],$data[1]);
+      $arr[]= array( $data[0],$data[1],$data[2]);
     }
     fclose($handle);
 }
