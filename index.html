@@ -21,6 +21,18 @@ $(document).ready(function(){
         var mainArr =[];
         var mainarrGroupJSON;
 
+         $("#start111").click(function(){
+
+
+  
+
+         });
+
+
+
+
+
+
     $("#start").click(function(){
 
 var intervalID = window.setInterval(myCallback, 5000);
@@ -32,9 +44,8 @@ function myCallback() {
         return;
     }
   // Your code here
-// Assign handlers immediately after making the request,
-// and remember the jqxhr object for this request
-var jqxhr = $.post( "php5/scanx.php", { param: mainArr.shift(), time: "2pm" } , function() {
+var str=mainArr.shift();
+  var jqxhr = $.post( "php_parket/scanx.php", { param: str, time: "2pm" } , function() {
   //alert( "success" );
 })
   .done(function(data) {
@@ -48,9 +59,9 @@ var jqxhr = $.post( "php5/scanx.php", { param: mainArr.shift(), time: "2pm" } , 
   .always(function() {
    // alert( "finished" );
 });
-}
 
-     
+
+}   
        console.log("ol");
     });
 
@@ -64,19 +75,47 @@ $("#load").click(function(){
 $.ajax({
         type: "GET",
     /*url: "php5/sitemapL.xml",*/
-    url: "php5/updated6.xml",
-    dataType: "xml",
+    url: "php_parket/load.php",
     success: function(xml) {
 
-             $(xml).find('loc').each(function(i,e){
-                mainArr.push($(e).text());
+mainArr = jQuery.parseJSON(xml);
 
-              });
+      
        console.log('load )) '+ mainArr.length);
     }
 });
 
     });
+$("#filltxt").click(function(){
+$.ajax({
+        type: "GET",
+    url: "php_parket/filltxt.php",
+    success: function(xml) {
+
+mainArr = jQuery.parseJSON(xml);
+
+      
+       console.log('load )) '+ mainArr.length);
+    }
+});
+
+    });
+$("#rem_word").click(function(){
+$.ajax({
+        type: "GET",
+    url: "php_parket/r_word.php",
+    success: function(xml) {
+
+mainArr = jQuery.parseJSON(xml);
+
+      
+       console.log('load )) '+ mainArr.length);
+    }
+});
+
+    });
+
+
 
 ////       GROUP  B
 
@@ -188,6 +227,12 @@ $.ajax({
 
 <button id="start">Start</button>
 <button id="load">Load</button>
+<button id="filltxt">filltxt</button>
+<button id="rem_word">rem_word</button>
+<select id="repl">
+  <option>Террасная доска Тик гладкая/</option>
+  <option>Пункт 2</option>
+</select>
 
                     </header>
                     <section>
