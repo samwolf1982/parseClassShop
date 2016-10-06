@@ -13,6 +13,7 @@ $GLOBALS['forum']='http://anti-free.ru/forum';
 
 $GLOBALS['curent_host'] = 'www.anfloors.ru';
 $GLOBALS['curent_host_full'] = 'http://www.anfloors.ru/';
+$GLOBALS['curent_host_fullwslahs'] = 'http://www.anfloors.ru';
 define('CURENT_HOST', 'localhost');
 define('CURENT_DB', 'localhost3');
 define('CURENT_USER', 'root');

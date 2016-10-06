@@ -10,8 +10,8 @@ require_once 'PhpDebuger/debug.php';
 
 if (isset($_POST['param'])) {
   # code...
-  echo 'ok'; die();
-  scanx($_POST['param'][1]);
+
+  scanx($_POST['param'][3]);
  //echo $_POST['param'][1];
 
 
@@ -31,8 +31,8 @@ die();
 //die();
   //$path_site='http://alitrust.ru/boasts/odezhda-i-obuv';
 /*  $path_site=$GLOBALS['curent_host_full'].'search/?q='.urlencode  ( iconv('utf-8','windows-1251',  $path_site)).'&how=r';*/
-    $path_site=$GLOBALS['curent_host_full'].'search/?q='.urlencode  ( iconv('utf-8','windows-1251',  $path_site)).'&s=';
-  
+    $path_site=$GLOBALS['curent_host_fullwslahs'].$path_site;
+
   # code...
   phpQuery::ajaxAllowHost($GLOBALS['curent_host']); 
 
@@ -51,7 +51,7 @@ die();
       $document=phpQuery::newDocument($do);
    
 
-     // парс ст. +отправка и сверка
+     // парс ст.
       parse($document,$path_site);
 
         
@@ -79,15 +79,25 @@ die();
 
 
 $b1=array();
-       $bread1='.catalog > li';
+       $bread1='.p-char > li';
          $bread1a=$document->find($bread1);
 
 
 
-if(count($bread1a)===1){
+if(count($bread1a)>0){
  //  echo "in ok count". count($bread1a);
-         
-           $a=pq($bread1a)->find('.c-name a');   
+    
+        foreach ($bread1a as $key => $value) {
+          # code...
+            $td=  trim(trim(pq($value)->find('span:first')->text()),':') ;
+            $td2= trim(trim(pq($value)->find('span:last')->text()),':')  ;
+
+echo $td." ".$td2;
+echo count($bread1a);
+die();
+              }
+     
+  /*         $a=pq($bread1a)->find('.c-name a');   
            $r= $a->attr('href');
            echo $r;
            $fp = fopen('ok.csv', 'ab');
@@ -98,18 +108,11 @@ if(count($bread1a)===1){
  $name=$_POST['param'][2];
  $search_name=$_POST['param'][1];
                fputcsv($fp, array($id,$name,$search_name,$url));
-               fclose($fp);
+               fclose($fp);*/
 
 }
 else{
-    $fp = fopen('bad.csv', 'ab');
-//    id search fullname
- $id=$_POST['param'][0];
-
- $name=$_POST['param'][2];
- $search_name=$_POST['param'][1];
-               fputcsv($fp, array($id,$name,$search_name));
-               fclose($fp);
+  // some to do log
 }
 
 
