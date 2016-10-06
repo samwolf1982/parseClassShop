@@ -86,16 +86,28 @@ $b1=array();
 
 if(count($bread1a)>0){
  //  echo "in ok count". count($bread1a);
-    
+    $filters = array();
         foreach ($bread1a as $key => $value) {
           # code...
-            $td=  trim(trim(pq($value)->find('span:first')->text()),':') ;
-            $td2= trim(trim(pq($value)->find('span:last')->text()),':')  ;
+            $td=  trim(trim(pq($value)->find('span:first')->text()),':?') ;
+            $td2= trim(trim(pq($value)->find('span:last')->text()),':?')  ;
+$filters[$td]=$td2;
 
-echo $td." ".$td2;
-echo count($bread1a);
-die();
+
               }
+
+
+          $db = new PDO("mysql:host=".CURENT_HOST.";dbname=".CURENT_DB, CURENT_USER, CURENT_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+/*взять ид групы фильтров и сам фильтр*/
+foreach ($filters as $key => $value) {
+
+}
+/*end forech*/
+
+
+
+echo json_encode( $filters);
+die();
      
   /*         $a=pq($bread1a)->find('.c-name a');   
            $r= $a->attr('href');
